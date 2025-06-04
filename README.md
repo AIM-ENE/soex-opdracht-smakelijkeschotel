@@ -1,7 +1,9 @@
 # SOEX Beroepsproduct
+
 Casusbeschrijving voor SOEX: Solution Exploration
 
 ## Restaurant applicatie: De Smakelijke Schotel
+
 Het Restaurant "De Smakelijke Schotel" is een drukbezochte eetgelegenheid in het hartje van de stad. Het restaurant heeft een uitgebreid menu met diverse gerechten, variërend van traditionele gerechten tot fusionkeukencreaties. De eigenaar, Jan, beheert de voorraad zorgvuldig om ervoor te zorgen dat alle ingrediënten voorhanden zijn voor de kok om de gerechten te bereiden.
 
 De voorraad van het restaurant wordt beheerd door Jan en zijn team. Ze houden bij hoeveel van elk ingrediënt beschikbaar is. Bijvoorbeeld, er zijn 20 kilogram tomaten, 10 kilogram uien, enzovoort. Deze voorraad wordt aangevuld door leveranciers op basis van bestellingen die het restaurant plaatst.
@@ -65,41 +67,70 @@ In de toekomst wil Jan ook met zijn tijd meegaan en digitale betaalmiddelen onde
 
 ![Restaurant bezoek na reservering digitalized to-be coarse-grained](./opdracht-diagrammen/Restaurant-bezoek-pure-as-is-coarse-grained.egn.svg)
 
+Vervolgens is men tot de conclusie gekomen dat het meest ingewikkelde systeem voor nu het bestelsysteem is. Daarbij spelen eigenlijk twee aspecten een rol: plaatsen bestelling en betalen rekening.
+
 ## Opdracht in hoofdlijnen
 
-1. Ontwerp maken waarbij gebruik gemaakt moet worden van C4. Je werkt een of meerdere ontwerpvragen uit die per drietal verschillend zijn waardoor verschillende groepjes verschillende aspecten van de applicatie moeten uitwerken.
+1. Ontwerp maken waarbij gebruik gemaakt moet worden van C4. Je werkt een of meerdere ontwerpvragen uit die niet mogen dubbelen met andere studenten, overleg de ontwerpvragen dus eerst met je docent.
 2. Design patterns bestuderen en toepassen. 
 3. PoC-jes (prototypes) maken van communicatie met één, of twee externe services.
+4. PoC-jes integreren in de bestaande back-end waarbij de al eerder gekozen principes gehandhaafd blijven, zoals de DDD-aanpak van het domein, het gebruik van services, repositories en DTOs. 
 
-Essentieel in deze casus is dat je niet alleen bedenkt en visualiseert hoe de software eruit moet zien, maar deze plaatjes ook voorziet van tekst waaruit keuzes blijken die je hebt gemaakt en het geheel (een software guidebook) voor een andere ontwikkelaar begrijpelijk is. Daarnaast werk je enkele keuzes uit in de vorm van werkende prototypes. 
+Essentieel in deze casus is dat je niet alleen bedenkt en visualiseert hoe de software eruit moet zien, maar deze plaatjes ook voorziet van tekst waaruit keuzes blijken die je hebt gemaakt en het geheel (een software guidebook) voor een andere ontwikkelaar begrijpelijk is. Daarnaast werk je enkele keuzes uit in de vorm van werkende prototypes en integreert in de bestaande applicatie. 
 
 ## Ontwerpvragen
 
 Gegroepeerd op quality attribute uit het software guidebook:
 
-**Interoperability**
-* Hoe kunnen we verschillende betalingssystemen integreren voor de verschillende bouwstenen?
+### Interoperability
+
+* Hoe kun je externe APIs (zoals allergenen- of calorieëninfo) uniform aanspreken ondanks verschillende datamodellen?
 * Hoe kunnen we verschillende identity providers met verschillende interfaces integreren voor het gehele systeem?
-* Hoe zorg je dat een wijziging in een of meerdere APIs niet leidt tot een grote wijziging in de applicatie? Specifieker: hoe zorg je ervoor dat een wijziging in de API van een externe service niet leidt tot een wijziging in de front-end maar flexibel kan worden opgevangen door de back-end?
+* Hoe zorg je dat een wijziging in een of meerdere APIs niet leidt tot een grote wijziging in de applicatie? Specifieker: hoe zorg je ervoor dat een wijziging in de API van een externe service niet leidt tot een wijziging in de front-end maar flexibel kan worden opgevangen door de back-end? 
 * Hoe zorg je ervoor dat je bij een wijziging in de datastructuur van een externe service niet de hele applicatie hoeft aan te passen?
 * Wie is verantwoordelijk voor het vertalen van een bericht van een externe service naar een aanroep van het domein?
 * Wie roept een specifieke externe service aan, gebeurt dat vanuit de front-end of vanuit de back-end? Welke redenen zijn er om voor de ene of de andere aanpak te kiezen?
+* Hoe koppel je gerechten automatisch aan relevante allergeneninformatie zonder handmatige mapping?
 
-**Fault Tolerance**
-* Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven wordt?
+### Fault Tolerance
+
+* Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven wordt? Hoe zorg je dat een gast altijd een consistente beleving heeft, ongeacht welke services tijdelijk onbeschikbaar zijn?
 * Wat doe je als je vanuit de applicatie meerdere externe services, of meerdere aanroepen naar dezelfde service, moet aanroepen en de volgorde van aanroepen van belang is?
 
-**Modularity**
-* Hoe zorg je ervoor dat je makkelijk de ene externe service kan vervangen door een andere die ongeveer hetzelfde doet?
-* Hoe zorg je ervoor dat je makkelijk een nieuwe externe service kan toevoegen?
+### Modularity
 
-**Modifiability**
+* Hoe kun je verschillende betaalmethodes (nu contant, later Stripe/PayPal) ondersteunen zonder het betalingssysteem te herschrijven?
+* Hoe implementeer je de keuze voor een betaalmethode zonder if-structuren of switch-statements?
+* Hoe kun je het gebruik van meerdere receptbronnen standaardiseren voor uitbreidbaarheid?  
+* Hoe kun je gerechten filteren op diverse en in de toekomst nog uit te breiden voedingswensen?
+* Hoe kun je een dynamisch maandmenu genereren op basis van seizoensgebonden recepten?
+* Hoe kun je één bestelling splitsen over meerdere gasten met aparte betaalverzoeken?
 
-**Integrity**
+### Modifiability
+
+* Hoe zorg je dat bestelstatussen eenvoudig uitgebreid kunnen worden en het systeem adequaat reageert op een wijzing in die status?
+* Hoe kun je meerdere varianten van gerechten (formaat/portie) zonder logica-duplicatie modelleren?
+* Hoe maak je het systeem voorbereid op meerdere restaurants met verschillende voorraadsystemen?
+
+### Integrity
+
 * Hoe wordt de toestand van de applicatie bijgehouden, is er een centrale toestand of is de toestand van de applicatie verdeeld over de bouwstenen?
+* Hoe verwerk je realtime voorraadcontrole bij het toevoegen van gerechten aan de winkelmand?
+* Hoe zorg je dat een bestelling pas doorgaat als alle ingrediënten beschikbaar zijn?
+* Hoe manage je wijzigingen in API-specificaties zonder dat de hele app breekt?
 
-**Confidentiality**
+### Confidentiality
+
 * Hoe beheer je veilig de interactie met verouderde externe APIs die geen moderne beveiligingsprotocollen ondersteunen?
 * Hoe implementeer je logging van API-aanroepen op een manier die gevoelige informatie niet blootstelt?
 * Hoe waarborg je de integriteit van data die via externe APIs wordt verzonden of ontvangen?
 * Hoe zorg je ervoor dat authenticatie en autorisatie consistent worden toegepast bij het communiceren met verschillende externe APIs?
+
+## Potentiële APIs
+
+* Food Nutrition Allergen and Ingredient Database (allergenen voor mensen die allergisch zijn voor iets of liever vegan/vegetarisch eten)
+* Voorraadbeheersysteem
+* Recepten API (om het systeem mee uit te breiden)
+* Calorieen API (om mensen inzicht te geven in de hoeveelheid kcal die ze eten)
+* Cocktail API (stappenplan om exact een cocktail te kunnen maken)
+* PayPal, Stripe etc. (betalingen)
