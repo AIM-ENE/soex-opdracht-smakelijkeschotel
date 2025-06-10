@@ -75,6 +75,7 @@ Vervolgens is men tot de conclusie gekomen dat het meest ingewikkelde systeem vo
 2. Design patterns bestuderen en toepassen. 
 3. PoC-jes (prototypes) maken van communicatie met één, of twee externe services.
 4. PoC-jes integreren in de bestaande back-end waarbij de al eerder gekozen principes gehandhaafd blijven, zoals de DDD-aanpak van het domein, het gebruik van services, repositories en DTOs. 
+5. Presenteer je eigen werk kort zodat de docent kan vaststellen dat jouw werk authentiek is en of jouw gekozen pattern/principe daadwerkelijk een oplossing is voor de ontwerpvraag. 
 
 Essentieel in deze casus is dat je niet alleen bedenkt en visualiseert hoe de software eruit moet zien, maar deze plaatjes ook voorziet van tekst waaruit keuzes blijken die je hebt gemaakt en het geheel (een software guidebook) voor een andere ontwikkelaar begrijpelijk is. Daarnaast werk je enkele keuzes uit in de vorm van werkende prototypes en integreert in de bestaande applicatie. 
 
